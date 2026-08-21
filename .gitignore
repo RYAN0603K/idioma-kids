@@ -1,0 +1,6 @@
+node_modules/
+.env
+server/certs/*.p12
+server/certs/*.pem
+.DS_Store
+*.log

@@ -1,0 +1,3087 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idioma Kids — Seu filho aprendendo idiomas brincando!</title>
+    <meta name="description" content="O app de idiomas feito para crianças. Seu filho aprende inglês, espanhol e mais brincando com o Tico, nosso tigrinho. Divertido, seguro e eficaz.">
+    <link rel="icon" type="image/png" href="Logo Idioma kids (1).png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Brand Colors applied to Duolingo Structure */
+            --duo-green: #FF6B35;       /* Primary Action (Orange) */
+            --duo-green-dark: #E55A25;  /* Primary Shadow */
+            --duo-green-hover: #FF8F5E; /* Primary Hover */
+            
+            --duo-blue: #7B2FAF;        /* Secondary/Premium (Purple) */
+            --duo-blue-dark: #5B1A8A;   /* Secondary Shadow */
+            
+            --duo-yellow: #FFC800;      /* Badges (Keep gold for highlights) */
+            --duo-yellow-dark: #E5B400;
+            
+            --purple-dark: #5B1A8A;
+            --purple-main: #7B2FAF;
+            --purple-lighter: #D8B4E8;
+            --purple-bg: #F5EEFA;
+
+            --orange-main: #FF6B35;
+            
+            --cream: #FFFFFF;
+            --cream-dark: #F7F7F7;
+            --text-dark: #4B4B4B;
+            --text-medium: #777777;
+            --text-light: #AFAFAF;
+            --white: #FFFFFF;
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+            
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            background: var(--cream-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== UTILITIES ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 32px;
+            border: none;
+            border-radius: var(--radius-full);
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+        }
+
+        .btn-primary {
+            background: var(--duo-green);
+            color: var(--white);
+            box-shadow: 0 4px 0 var(--duo-green-dark);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            border-radius: var(--radius-md);
+        }
+
+        .btn-primary:hover {
+            background: var(--duo-green-hover);
+        }
+
+        .btn-primary:active {
+            box-shadow: none;
+            transform: translateY(4px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--duo-blue);
+            border: 2px solid #E5E5E5;
+            box-shadow: 0 4px 0 #E5E5E5;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            border-radius: var(--radius-md);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cream-dark);
+        }
+
+        .btn-secondary:active {
+            box-shadow: none;
+            transform: translateY(4px);
+        }
+
+        .btn-purple {
+            background: var(--purple-main);
+            color: var(--white);
+            box-shadow: 0 4px 0 var(--purple-dark);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            border-radius: var(--radius-md);
+        }
+
+        .btn-purple:hover {
+            background: var(--purple-light);
+        }
+
+        .btn-purple:active {
+            box-shadow: none;
+            transform: translateY(4px);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 16px;
+            line-height: 1.2;
+            color: #4B4B4B;
+        }
+
+        .section-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-medium);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 48px;
+            font-weight: 600;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: #FFFFFF;
+            border-bottom: 2px solid #E5E5E5;
+        }
+
+        .navbar.scrolled {
+            /* Duolingo doesn't add shadows on scroll, it keeps the hard border */
+            border-bottom: 2px solid #E5E5E5;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--purple-main);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 3px 0 var(--purple-dark);
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--purple-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: var(--orange-main);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--purple-main);
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-cta .btn {
+            padding: 10px 24px;
+            font-size: 0.9rem;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 3px;
+            background: var(--purple-main);
+            border-radius: 2px;
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(180deg, var(--white) 0%, var(--purple-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(123, 47, 175, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 560px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--purple-bg);
+            color: var(--purple-main);
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            border: 2px solid var(--purple-lighter);
+        }
+
+        .hero-title {
+            font-size: clamp(2.4rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .hero-title .highlight {
+            color: var(--purple-main);
+            position: relative;
+        }
+
+        .hero-title .highlight-orange {
+            color: var(--orange-main);
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            margin-bottom: 36px;
+            font-weight: 600;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+
+        .hero-social-proof {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar-stack {
+            display: flex;
+        }
+
+        .avatar-stack .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid var(--white);
+            margin-left: -12px;
+            background: var(--purple-lighter);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .avatar-stack .avatar:first-child {
+            margin-left: 0;
+        }
+
+        .social-proof-text {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            font-weight: 700;
+        }
+
+        .social-proof-text strong {
+            color: var(--purple-main);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-mascot-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .hero-mascot-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, var(--purple-lighter) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .hero-mascot {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 20px 40px rgba(91, 26, 138, 0.15));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .float-badge {
+            position: absolute;
+            z-index: 2;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .float-badge:nth-child(2) {
+            animation-delay: -1s;
+        }
+
+        .float-badge:nth-child(3) {
+            animation-delay: -2s;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .float-badge-1 {
+            top: 10%;
+            right: -10px;
+        }
+
+        .float-badge-2 {
+            bottom: 20%;
+            left: -20px;
+        }
+
+        .float-badge-3 {
+            top: 45%;
+            right: -30px;
+        }
+
+        .float-badge .badge-icon {
+            font-size: 28px;
+        }
+
+        .float-badge .badge-text {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .float-badge .badge-subtext {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* ===== FEATURES STRIP ===== */
+        .features-strip {
+            background: var(--purple-main);
+            padding: 24px 0;
+            overflow: hidden;
+        }
+
+        .features-strip-inner {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .strip-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--white);
+        }
+
+        .strip-item .strip-icon {
+            font-size: 28px;
+        }
+
+        .strip-item .strip-text {
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: var(--radius-lg);
+            background: #FFFFFF;
+            border: 2px solid #E5E5E5;
+            border-bottom: 4px solid #E5E5E5;
+            position: relative;
+            transition: transform 0.2s ease, border-bottom 0.2s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(2px);
+            border-bottom: 2px solid #E5E5E5;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 44px;
+            height: 44px;
+            background: var(--orange-main);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 0 var(--orange-dark);
+        }
+
+        .step-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .step-desc {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* ===== BENEFITS ===== */
+        .benefits {
+            padding: 100px 0;
+            background: var(--purple-bg);
+            position: relative;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .benefits-image {
+            display: flex;
+            justify-content: center;
+        }
+
+        .benefits-image img {
+            max-width: 100%;
+            width: 450px;
+            border-radius: var(--radius-lg);
+            filter: drop-shadow(0 15px 30px rgba(91, 26, 138, 0.12));
+        }
+
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 20px;
+            padding: 24px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            transform: translateX(8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .benefit-icon {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            background: var(--purple-bg);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .benefit-text h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+            color: var(--text-dark);
+        }
+
+        .benefit-text p {
+            font-size: 0.92rem;
+            color: var(--text-medium);
+            font-weight: 600;
+        }
+
+        /* ===== LANGUAGES ===== */
+        .languages {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .language-card {
+            text-align: center;
+            padding: 28px 16px;
+            background: #FFFFFF;
+            border-radius: var(--radius-md);
+            border: 2px solid #E5E5E5;
+            border-bottom: 4px solid #E5E5E5;
+            transition: transform 0.2s ease, border-bottom 0.2s ease, border-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .language-card:hover {
+            border-color: var(--duo-blue);
+            transform: translateY(2px);
+            border-bottom: 2px solid var(--duo-blue);
+        }
+
+        .language-flag {
+            font-size: 48px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .language-name {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .language-tag {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--purple-main) 0%, var(--purple-dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            color: var(--white);
+        }
+
+        .stat-number {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+
+        .stat-number .orange {
+            color: var(--orange-main);
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            opacity: 0.85;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--cream);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            border: 2px solid #E5E5E5;
+            border-bottom: 4px solid #E5E5E5;
+            transition: transform 0.2s ease, border-bottom 0.2s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(2px);
+            border-bottom: 2px solid #E5E5E5;
+        }
+
+        .testimonial-stars {
+            color: #FFB800;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-text {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            font-weight: 600;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--purple-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .testimonial-name {
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: var(--text-dark);
+        }
+
+        .testimonial-role {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* ===== MASCOT SHOWCASE ===== */
+        .mascot-showcase {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .mascot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .mascot-info h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .mascot-info h2 .purple {
+            color: var(--purple-main);
+        }
+
+        .mascot-info p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            font-weight: 600;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .mascot-traits {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .mascot-trait {
+            background: var(--purple-bg);
+            color: var(--purple-main);
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 800;
+            border: 2px solid var(--purple-lighter);
+        }
+
+        .mascot-image {
+            display: flex;
+            justify-content: center;
+        }
+
+        .mascot-image img {
+            max-width: 100%;
+            width: 420px;
+            filter: drop-shadow(0 15px 30px rgba(91, 26, 138, 0.12));
+            animation: float 4s ease-in-out infinite;
+            animation-delay: -1s;
+        }
+
+        /* ===== SAFETY ===== */
+        .safety {
+            padding: 100px 0;
+            background: var(--purple-bg);
+        }
+
+        .safety-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .safety-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            border: 2px solid var(--cream-dark);
+            transition: transform 0.3s ease;
+        }
+
+        .safety-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .safety-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .safety-card h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .safety-card p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* ===== PRICING ===== */
+        .pricing {
+            padding: 100px 0;
+            background: var(--white);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 40px 30px;
+            text-align: center;
+            border: 2px solid #E5E5E5;
+            border-bottom: 4px solid #E5E5E5;
+            transition: transform 0.2s ease, border-bottom 0.2s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(2px);
+            border-bottom: 2px solid #E5E5E5;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--duo-blue);
+            border-bottom: 4px solid var(--duo-blue-dark);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(2px);
+            border-bottom: 2px solid var(--duo-blue-dark);
+        }
+
+        .pricing-popular {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--orange-main);
+            color: var(--white);
+            padding: 6px 20px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 0 var(--orange-dark);
+        }
+
+        .pricing-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .pricing-name {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--purple-main);
+            margin-bottom: 4px;
+        }
+
+        .pricing-price .currency {
+            font-size: 1.2rem;
+            vertical-align: top;
+        }
+
+        .pricing-price .period {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 700;
+        }
+
+        .pricing-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+
+        .pricing-features li {
+            padding: 8px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            background: rgba(76, 175, 80, 0.15);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 900;
+        }
+
+        .pricing-card .btn {
+            width: 100%;
+        }
+
+        /* ===== FAQ ===== */
+        .faq {
+            padding: 100px 0;
+            background: var(--cream);
+        }
+
+        .faq-list {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            border: 2px solid var(--cream-dark);
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item.active {
+            border-color: var(--purple-lighter);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            text-align: left;
+        }
+
+        .faq-question:hover {
+            background: var(--cream);
+        }
+
+        .faq-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: var(--purple-main);
+        }
+
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-inner {
+            padding: 0 28px 22px;
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            font-weight: 600;
+            line-height: 1.7;
+        }
+
+        /* ===== CTA FINAL ===== */
+        .cta-final {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--purple-main) 0%, var(--purple-dark) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-final::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.1) 0%, transparent 60%);
+            border-radius: 50%;
+        }
+
+        .cta-final::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+            border-radius: 50%;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-mascot {
+            width: 140px;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cta-final h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .cta-final p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            margin-bottom: 36px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn-primary {
+            font-size: 1.1rem;
+            padding: 18px 40px;
+        }
+
+        .cta-note {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--text-dark);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo-text {
+            color: var(--white);
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand .logo-text span {
+            color: var(--orange-main);
+        }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            font-weight: 600;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            color: var(--white);
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            transition: color 0.2s;
+        }
+
+        .footer-col a:hover {
+            color: var(--orange-main);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .footer-social a:hover {
+            background: var(--purple-main);
+        }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-social-proof {
+                justify-content: center;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-image {
+                order: -1;
+            }
+
+            .mascot-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .mascot-traits {
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-8px);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero-mascot {
+                max-width: 300px;
+            }
+
+            .float-badge {
+                display: none;
+            }
+
+            .features-strip-inner {
+                gap: 30px;
+            }
+
+            .safety-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 14px 24px;
+                font-size: 0.95rem;
+            }
+
+            .features-strip-inner {
+                flex-direction: column;
+                align-items: center;
+                gap: 16px;
+            }
+
+            .languages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 72px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--white);
+            z-index: 999;
+            padding: 24px;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 16px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 1.1rem;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s;
+        }
+
+        .mobile-menu a:hover {
+            background: var(--purple-bg);
+        }
+
+        .mobile-menu .btn {
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* ===== BLACK OFFER CSS (NOW DUO PREMIUM CSS) ===== */
+        .pricing-black {
+            background: #FFFFFF;
+            color: #4B4B4B;
+            position: relative;
+        }
+
+        .pricing-black::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .black-offer-badge {
+            display: inline-flex;
+            justify-content: center;
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--orange-main);
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-weight: 900;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin: 0 auto 20px;
+            border: 1px solid var(--orange-main);
+        }
+        
+        .pricing-black .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .neon-orange {
+            color: var(--orange-main);
+            text-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .countdown-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+            padding: 10px 24px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 auto 48px;
+        }
+
+        .countdown-wrapper span {
+            color: var(--text-medium);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .countdown-timer {
+            font-family: monospace;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--white);
+            letter-spacing: 2px;
+        }
+
+        /* Removed . as it does not fit Duolingo clone */
+        .card-black {
+            /* Duolingo uses a bright shiny blue or gold for premium features, not dark mode */
+            background: #FFFFFF !important;
+            border: 2px solid var(--duo-blue) !important;
+            border-bottom: 4px solid var(--duo-blue-dark) !important;
+            box-shadow: none !important;
+        }
+
+        .card-black:hover {
+            border-bottom: 2px solid var(--duo-blue-dark) !important;
+            transform: scale(1.05) translateY(2px) !important;
+        }
+
+        .card-black .pricing-popular {
+            background: var(--duo-yellow);
+            color: #4B4B4B;
+            box-shadow: 0 4px 0 var(--duo-yellow-dark);
+        }
+
+        .old-price {
+            font-size: 1.1rem;
+            color: #8B7BAD;
+            text-decoration: line-through;
+            font-weight: 700;
+            margin-bottom: -5px;
+        }
+
+        .neon-text {
+            color: var(--orange-main) !important;
+            text-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
+        }
+
+        . li {
+            color: #E2D9F3 !important;
+        }
+
+        .btn-pulse {
+            animation: pulse-orange 2s infinite;
+        }
+
+        @keyframes pulse-orange {
+            /* rgba(255, 107, 53) is the rgb of #FF6B35 (orange-main). The bottom border is #E55A25 (orange-dark) */
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7), 0 4px 0 var(--orange-dark); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 107, 53, 0), 0 4px 0 var(--orange-dark); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0), 0 4px 0 var(--orange-dark); }
+        }
+        /* ===== HIGH CONVERSION ELEMENTS (INSPIRATION) ===== */
+        .top-urgency-banner {
+            background: #ff4747;
+            color: #fff;
+            text-align: center;
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse-bg 2s infinite;
+            position: relative;
+            z-index: 2000;
+        }
+
+        @keyframes pulse-bg {
+            0% { background: #ff4747; }
+            50% { background: #cc0000; }
+            100% { background: #ff4747; }
+        }
+
+        .sticky-cta-mobile {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 8, 20, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 71, 71, 0.3);
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .sticky-cta-mobile { display: block; }
+            body { padding-bottom: 75px; } /* Espaço para o botão não sobrepor conteúdo */
+        }
+
+        .guarantee-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .badge-item {
+            background: #F7F7F7;
+            border: 1px solid #E5E5E5;
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            color: var(--text-medium);
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge-item .icon {
+            font-size: 1.2rem;
+            color: var(--orange-main);
+        }
+
+        .bonus-item {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 3px solid var(--orange-main);
+            padding: 6px 10px !important;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-weight: 800 !important;
+            color: var(--white) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container navbar-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <img src="Logo Idioma kids (1).png" alt="Tico" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                </div>
+                <div class="logo-text">IDIOMA <span>KIDS</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#como-funciona">Como Funciona</a></li>
+                <li><a href="#beneficios">Benefícios</a></li>
+                <li><a href="#idiomas">Idiomas</a></li>
+                <li><a href="#depoimentos">Depoimentos</a></li>
+                <li><a href="#planos">Planos</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="#" class="btn btn-secondary">Entrar</a>
+                <a href="#" class="btn btn-primary">Começar Grátis</a>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#como-funciona" onclick="toggleMenu()">Como Funciona</a>
+        <a href="#beneficios" onclick="toggleMenu()">Benefícios</a>
+        <a href="#idiomas" onclick="toggleMenu()">Idiomas</a>
+        <a href="#depoimentos" onclick="toggleMenu()">Depoimentos</a>
+        <a href="#planos" onclick="toggleMenu()">Planos</a>
+        <a href="#planos" class="btn btn-primary" style="margin-top: 8px;">Começar Agora</a>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    🎯 App #1 para crianças aprenderem idiomas
+                </div>
+                <h1 class="hero-title" style="color: #4B4B4B;">
+                    A forma divertida e segura do seu filho aprender um idioma!
+                </h1>
+                <p class="hero-description">
+                    Aulas curtas de 10 minutos que parecem um jogo. Tire seu filho do YouTube e transforme o tempo de tela em fluência em Inglês, Espanhol e mais!
+                </p>
+                <div class="hero-buttons">
+                    <a href="#planos" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px 36px;">
+                        COMEÇAR AGORA
+                    </a>
+                </div>
+                <div class="hero-social-proof">
+                    <div class="avatar-stack">
+                        <div class="avatar">👩</div>
+                        <div class="avatar">👨</div>
+                        <div class="avatar">👩‍🦰</div>
+                        <div class="avatar">🧑</div>
+                    </div>
+                    <div class="social-proof-text">
+                        <strong>+50.000</strong> famílias já confiam<br>no Idioma Kids
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-mascot-wrapper">
+                    <div class="hero-mascot-bg"></div>
+                    <img src="Requesting_foreign_and_domestic_._202608202312-Photoroom.png" alt="Tico - Mascote do Idioma Kids" class="hero-mascot" style="max-width: 110%; transform: scale(1.1) translateY(-20px);">
+                    <div class="float-badge float-badge-1">
+                        <span class="badge-icon">🏆</span>
+                        <div>
+                            <div class="badge-text">+10 XP</div>
+                            <div class="badge-subtext">Lição completa!</div>
+                        </div>
+                    </div>
+                    <div class="float-badge float-badge-2">
+                        <span class="badge-icon">🔥</span>
+                        <div>
+                            <div class="badge-text">7 dias</div>
+                            <div class="badge-subtext">Ofensiva ativa!</div>
+                        </div>
+                    </div>
+                    <div class="float-badge float-badge-3">
+                        <span class="badge-icon">⭐</span>
+                        <div>
+                            <div class="badge-text">Nível 3</div>
+                            <div class="badge-subtext">Explorador</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== METRICS STRIP ===== -->
+    <div class="features-strip">
+        <div class="container features-strip-inner" style="display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center; width: 100%;">
+            <div class="strip-item" style="flex-direction: column; gap: 4px; padding: 10px;">
+                <span class="strip-icon" style="font-size: 1.5rem; font-weight: 900; color: var(--orange-main); margin: 0;">12.000+</span>
+                <span class="strip-text" style="font-size: 0.85rem; color: var(--text-medium);">famílias ativas</span>
+            </div>
+            <div class="strip-item" style="flex-direction: column; gap: 4px; padding: 10px;">
+                <span class="strip-icon" style="font-size: 1.5rem; font-weight: 900; color: var(--orange-main); margin: 0;">4,9 ⭐</span>
+                <span class="strip-text" style="font-size: 0.85rem; color: var(--text-medium);">nota média no app</span>
+            </div>
+            <div class="strip-item" style="flex-direction: column; gap: 4px; padding: 10px;">
+                <span class="strip-icon" style="font-size: 1.5rem; font-weight: 900; color: var(--orange-main); margin: 0;">400+</span>
+                <span class="strip-text" style="font-size: 0.85rem; color: var(--text-medium);">lições ilustradas</span>
+            </div>
+            <div class="strip-item" style="flex-direction: column; gap: 4px; padding: 10px;">
+                <span class="strip-icon" style="font-size: 1.5rem; font-weight: 900; color: var(--orange-main); margin: 0;">10 min</span>
+                <span class="strip-text" style="font-size: 0.85rem; color: var(--text-medium);">por dia, sem forçar</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAIN POINTS SECTION ===== -->
+    <section class="how-it-works" style="background: var(--white); padding: 80px 0 40px 0;">
+        <div class="container">
+            <h2 class="section-title fade-up">Enquanto isso, o celular <span style="color: var(--orange-main);">rouba a atenção</span> do seu filho</h2>
+            <p class="section-subtitle fade-up">Você sabe que idioma abre portas. Mas cursos tradicionais são chatos, apps gringos não seguram a criança e aulas particulares custam um rim.</p>
+            
+            <div class="steps-grid" style="margin-top: 60px;">
+                <div class="step-card fade-up" style="background: white; border: none; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-radius: 24px; text-align: center; padding: 40px 20px 30px;">
+                    <img src="13-Photoroom.png" alt="Criança entediada" style="width: 120px; height: 120px; object-fit: cover; margin: -80px auto 20px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));">
+                    <h3 class="step-title" style="color: var(--purple-dark); font-weight: 700;">Criança entediada</h3>
+                    <p class="step-desc" style="color: var(--text-light);">O método de cursinho antigo não prende quem nasceu jogando Roblox e assistindo TikTok.</p>
+                </div>
+                <div class="step-card fade-up" style="background: white; border: none; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-radius: 24px; text-align: center; padding: 40px 20px 30px;">
+                    <img src="14-Photoroom.png" alt="Pai sem controle" style="width: 120px; height: 120px; object-fit: cover; margin: -80px auto 20px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));">
+                    <h3 class="step-title" style="color: var(--purple-dark); font-weight: 700;">Pai sem controle</h3>
+                    <p class="step-desc" style="color: var(--text-light);">Você nunca sabe se ele realmente estudou, se evoluiu alguma coisa ou se só passou tela.</p>
+                </div>
+                <div class="step-card fade-up" style="background: white; border: none; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border-radius: 24px; text-align: center; padding: 40px 20px 30px;">
+                    <img src="15-Photoroom.png" alt="Preço absurdo" style="width: 120px; height: 120px; object-fit: cover; margin: -80px auto 20px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));">
+                    <h3 class="step-title" style="color: var(--purple-dark); font-weight: 700;">Preço absurdo</h3>
+                    <p class="step-desc" style="color: var(--text-light);">Aulas particulares de idioma infantil de qualidade passam facilmente de R$ 200/hora.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works" id="como-funciona">
+        <div class="container">
+            <h2 class="section-title fade-up">Como o <span style="color: var(--purple-main)">Idioma Kids</span> funciona?</h2>
+            <p class="section-subtitle fade-up">Simples como brincar. Seu filho aprende um novo idioma em 3 passos fáceis.</p>
+            <div class="steps-grid">
+                <div class="step-card fade-up">
+                    <div class="step-number">1</div>
+                    <span class="step-icon">📱</span>
+                    <h3 class="step-title">Baixe o app</h3>
+                    <p class="step-desc">Disponível para iOS e Android. Crie uma conta gratuita e escolha o idioma que seu filho quer aprender.</p>
+                </div>
+                <div class="step-card fade-up">
+                    <div class="step-number">2</div>
+                    <span class="step-icon">🎮</span>
+                    <h3 class="step-title">Aprenda brincando</h3>
+                    <p class="step-desc">Lições curtas de 10 minutos com jogos, áudio nativo e atividades interativas. O Tico acompanha cada conquista!</p>
+                </div>
+                <div class="step-card fade-up">
+                    <div class="step-number">3</div>
+                    <span class="step-icon">🌟</span>
+                    <h3 class="step-title">Acompanhe o progresso</h3>
+                    <p class="step-desc">Receba relatórios semanais no seu e-mail. Veja exatamente o que seu filho está aprendendo e seu nível de evolução.</p>
+                </div>
+            </div>
+            
+            <!-- Novo CTA -->
+            <div class="fade-up" style="text-align: center; margin-top: 50px;">
+                <a href="#planos" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px 36px;">Quero Testar o Método na Prática</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BENEFITS ===== -->
+    <section class="benefits" id="beneficios">
+        <div class="container">
+            <h2 class="section-title fade-up">Por que pais escolhem o <span style="color: var(--purple-main)">Idioma Kids</span>?</h2>
+            <p class="section-subtitle fade-up">Mais do que um app. Uma ferramenta que prepara seu filho para o futuro.</p>
+            <div class="benefits-grid">
+                <div class="benefits-image fade-up">
+                    <img src="16-Photoroom.png" alt="Tico aprendendo" style="filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15)); border-radius: 20px;">
+                </div>
+                <div class="benefits-list">
+                    <div class="benefit-item fade-up">
+                        <div class="benefit-icon">🧠</div>
+                        <div class="benefit-text">
+                            <h3>Método científico adaptado para crianças</h3>
+                            <p>Baseado em pesquisas de aquisição de linguagem infantil, com repetição espaçada e aprendizado contextual.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item fade-up">
+                        <div class="benefit-icon">🎯</div>
+                        <div class="benefit-text">
+                            <h3>Lições personalizadas por idade</h3>
+                            <p>O conteúdo se adapta à idade (3-12 anos) e ao nível do seu filho, garantindo o desafio ideal.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item fade-up">
+                        <div class="benefit-icon">🏆</div>
+                        <div class="benefit-text">
+                            <h3>Recompensas que motivam</h3>
+                            <p>Sistema de pontos, medalhas e conquistas que mantém seu filho engajado e com vontade de aprender mais.</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item fade-up">
+                        <div class="benefit-icon">👨‍👩‍👧</div>
+                        <div class="benefit-text">
+                            <h3>Painel exclusivo para pais</h3>
+                            <p>Acompanhe o tempo de estudo, lições completadas e habilidades desenvolvidas em um dashboard intuitivo.</p>
+                        </div>
+                    </div>
+            </div>
+            
+            <!-- Novo CTA -->
+            <div class="fade-up" style="text-align: center; margin-top: 60px;">
+                <a href="#planos" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px 36px;">VER OS PLANOS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LANGUAGES ===== -->
+    <section class="languages" id="idiomas">
+        <div class="container">
+            <h2 class="section-title fade-up">Idiomas <span style="color: var(--orange-main)">disponíveis</span></h2>
+            <p class="section-subtitle fade-up">Seu filho pode aprender qualquer um desses idiomas — e trocar quando quiser!</p>
+            <div class="languages-grid fade-up">
+                <div class="language-card">
+                    <img src="Create_flags_cartoon_design_2K_202608202317-removebg-preview.png" alt="Inglês" style="width: 80px; height: 80px; object-fit: contain; margin: 0 auto 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">
+                    <div class="language-name">Inglês</div>
+                    <div class="language-tag">Mais popular</div>
+                </div>
+                <div class="language-card">
+                    <img src="Create_flags_cartoon_design_2K_202608202317-removebg-preview (2).png" alt="Português" style="width: 80px; height: 80px; object-fit: contain; margin: 0 auto 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">
+                    <div class="language-name">Português</div>
+                    <div class="language-tag">Reforço escolar</div>
+                </div>
+                <div class="language-card">
+                    <img src="Create_flags_cartoon_design_2K_202608202317-removebg-preview (3).png" alt="Alemão" style="width: 80px; height: 80px; object-fit: contain; margin: 0 auto 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">
+                    <div class="language-name">Alemão</div>
+                    <div class="language-tag">Estruturado</div>
+                </div>
+                <div class="language-card">
+                    <img src="Create_flags_cartoon_design_2K_202608202317-removebg-preview (4).png" alt="Francês" style="width: 80px; height: 80px; object-fit: contain; margin: 0 auto 15px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">
+                    <div class="language-name">Francês</div>
+                    <div class="language-tag">Elegante</div>
+                </div>
+                <!-- NOVOS IDIOMAS -->
+                <div class="language-card fade-up">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 15px; font-size: 3.5rem; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">🇮🇹</div>
+                    <div class="language-name">Italiano</div>
+                    <div class="language-tag">Musical</div>
+                </div>
+                <div class="language-card fade-up">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 15px; font-size: 3.5rem; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">🇨🇳</div>
+                    <div class="language-name">Mandarim</div>
+                    <div class="language-tag">Futuro</div>
+                </div>
+                <div class="language-card fade-up">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 15px; font-size: 3.5rem; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));">🇯🇵</div>
+                    <div class="language-name">Japonês</div>
+                    <div class="language-tag">Cultura pop</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats">
+        <div class="container stats-grid fade-up">
+            <div class="stat-item">
+                <div class="stat-number">50<span class="orange">K+</span></div>
+                <div class="stat-label">Famílias ativas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4.<span class="orange">9</span>⭐</div>
+                <div class="stat-label">Nota nas lojas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">5<span class="orange">M+</span></div>
+                <div class="stat-label">Lições completadas</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">92<span class="orange">%</span></div>
+                <div class="stat-label">Dos pais recomendam</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== MASCOT SHOWCASE ===== -->
+    <section class="mascot-showcase">
+        <div class="container mascot-grid">
+            <div class="mascot-info fade-up">
+                <h2>Conheça o <span class="purple">Tico</span>,<br>o melhor amigo do seu filho! 🐯</h2>
+                <p>
+                    O Tico é nosso tigrinho roxo que acompanha seu filho em cada lição. Ele comemora cada conquista, motiva quando precisa e torna o aprendizado uma aventura inesquecível.
+                </p>
+                <p>
+                    Com animações fofinhas e reações divertidas, o Tico se tornou o personagem favorito de milhares de crianças!
+                </p>
+                <div class="mascot-traits">
+                    <span class="mascot-trait">🎉 Divertido</span>
+                    <span class="mascot-trait">💜 Carinhoso</span>
+                    <span class="mascot-trait">🌟 Motivador</span>
+                    <span class="mascot-trait">📚 Educativo</span>
+                </div>
+            </div>
+            <div class="mascot-image fade-up">
+                <img src="Request_flags_drawing_style_2K_202608202305-Photoroom.png" alt="Tico em diferentes aventuras">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SAFETY ===== -->
+    <section class="safety">
+        <div class="container">
+            <h2 class="section-title fade-up">100% <span style="color: var(--purple-main)">seguro</span> para seu filho</h2>
+            <p class="section-subtitle fade-up">Desenvolvido com os mais altos padrões de segurança infantil.</p>
+            <div class="safety-grid">
+                <div class="safety-card fade-up">
+                    <div class="safety-icon">🔒</div>
+                    <h3>Sem anúncios</h3>
+                    <p>Nenhum anúncio ou conteúdo externo. Seu filho interage apenas com o conteúdo educativo.</p>
+                </div>
+                <div class="safety-card fade-up">
+                    <div class="safety-icon">👁️</div>
+                    <h3>Controle parental</h3>
+                    <p>Defina limites de tempo, acompanhe o uso e configure notificações de progresso.</p>
+                </div>
+                <div class="safety-card fade-up">
+                    <div class="safety-icon">🛡️</div>
+                    <h3>LGPD Compliant</h3>
+                    <p>Dados protegidos seguindo todas as normas da LGPD e leis internacionais de privacidade infantil.</p>
+                </div>
+                <div class="safety-card fade-up">
+                    <div class="safety-icon">💬</div>
+                    <h3>Sem chat ou redes sociais</h3>
+                    <p>Não há nenhuma funcionalidade de comunicação entre usuários. 100% focado no aprendizado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="testimonials" id="depoimentos">
+        <div class="container">
+            <h2 class="section-title fade-up">O resultado que os pais estão <span style="color: var(--orange-main)">vendo em casa</span></h2>
+            <p class="section-subtitle fade-up">A mudança não acontece da noite pro dia. Mas em poucas semanas a diferença é enorme.</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "Lucas era daqueles que não parava quieto. Em 3 semanas ele já me perguntava 'mãe, onde está a apple?' do nada. Agora é ele que cobra a lição."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">👩</div>
+                        <div>
+                            <div class="testimonial-name">Ana Paula</div>
+                            <div class="testimonial-role">Mãe do Lucas, 6 anos</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "Já tinha tentado curso online, youtubinho, app gringo... nada segurava. No Idioma Kids ela usa sozinha todo dia depois da escola. O relatório me mostra que não é enganação."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">👨</div>
+                        <div>
+                            <div class="testimonial-name">Ricardo M.</div>
+                            <div class="testimonial-role">Pai da Júlia, 8 anos</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-up">
+                    <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "Pedro não sabia nem o alfabeto direito e já repete frases em inglês. O modo sem internet salvou nas viagens. Vale cada centavo do plano Blindagem."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">👩‍🦰</div>
+                        <div>
+                            <div class="testimonial-name">Fernanda</div>
+                            <div class="testimonial-role">Mãe do Pedro, 5 anos</div>
+                        </div>
+                    </div>
+            </div>
+            
+            <!-- Novo CTA -->
+            <div class="fade-up" style="text-align: center; margin-top: 60px;">
+                <a href="#planos" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px 36px;">COME�AR AGORA</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING (COPY BLACK) ===== -->
+    <section class="pricing pricing-black" id="planos">
+        <div class="container">
+            <div class="black-offer-badge fade-up" style="border-color: var(--orange-main); color: var(--orange-dark); background: #FFF8F0;">⚠️ ALERTA PARA PAIS RESPONSÁVEIS</div>
+            <h2 class="section-title fade-up" style="color: #4B4B4B;">O celular está <span style="color: var(--orange-main);">atrasando</span> a vida do seu filho?</h2>
+            <p class="section-subtitle fade-up" style="color: var(--text-medium); max-width: 700px; margin: 0 auto 50px;">
+                Enquanto outras crianças perdem horas com vídeos inúteis, o seu filho pode estar dominando um novo idioma. O mercado de amanhã não vai perdoar quem não fala inglês. <strong>A decisão de deixá-lo para trás ou prepará-lo para vencer é sua.</strong>
+            </p>
+
+            <div class="pricing-grid">
+    
+                <div class="pricing-card featured card-black fade-up">
+                    <div class="pricing-popular" >⭐ A Escolha Certa</div>
+                    <div class="pricing-icon">🚀</div>
+                    <h3 class="pricing-name" style="color: var(--purple-dark);">Passaporte VIP</h3>
+                    
+                    <div class="pricing-price neon-text" style="color: var(--orange-main); font-weight: 900;">
+                        <span class="currency">R$</span>29<span style="font-size:1.5rem">,90</span>
+                        <span class="period">/mês</span>
+                    </div>
+                    
+                    <p class="pricing-desc" style="color: var(--text-medium); font-weight: 700;">Transforme o tempo de tela em uma vantagem desleal.</p>
+                    <ul class="pricing-features ">
+                        <li>Acesso desbloqueado ao futuro</li>
+                        <li>Lições ilimitadas (Fluência Rápida)</li>
+                        <li>Zero distrações e anúncios</li>
+                        <li>Relatório: saiba exatamente se ele está aprendendo</li>
+                        <li>Método validado que vicia positivamente</li>
+                        <li class="bonus-item">🎁 BÔNUS: E-book de Atividades Práticas</li>
+                    </ul>
+                    <a href="COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px;" target="_blank">ASSINAR AGORA</a>
+                </div>
+                
+                <div class="pricing-card  fade-up">
+                    <div class="pricing-icon">🛡️</div>
+                    <h3 class="pricing-name" style="color: var(--purple-dark);">Blindagem</h3>
+                    
+                    <div class="pricing-price" style="color: var(--purple-main); font-weight: 900;">
+                        <span class="currency">R$</span>49<span style="font-size:1.5rem">,90</span>
+                        <span class="period">/mês</span>
+                    </div>
+                    
+                    <p class="pricing-desc" style="color: var(--text-medium);">Nenhum filho seu ficará para trás.</p>
+                    <ul class="pricing-features ">
+                        <li>Todas as vantagens do Passaporte VIP</li>
+                        <li>Proteção para até 4 filhos simultâneos</li>
+                        <li>Painel de controle familiar avançado</li>
+                        <li>Ranking entre irmãos (Gera foco e disciplina)</li>
+                        <li>Suporte VIP direto com especialistas</li>
+                        <li class="bonus-item">🎁 BÔNUS: E-book de Atividades Práticas</li>
+                        <li class="bonus-item">🎁 BÔNUS: Guia em Áudio para Pais</li>
+                    </ul>
+                    <a href="COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI_DA_FAMILIA" class="btn btn-purple" target="_blank">ASSINAR FAMÍLIA</a>
+                </div>
+            </div>
+
+            <!-- Guarantee Badges -->
+            <div class="guarantee-badges fade-up">
+                <div class="badge-item"><span class="icon">🔒</span> Compra 100% Segura</div>
+                <div class="badge-item"><span class="icon">🛡️</span> 7 Dias de Garantia</div>
+                <div class="badge-item"><span class="icon">⚡</span> Acesso Imediato</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title fade-up">Perguntas <span style="color: var(--purple-main)">frequentes</span></h2>
+            <p class="section-subtitle fade-up">Tire suas dúvidas sobre o Idioma Kids.</p>
+            <div class="faq-list fade-up">
+                <div class="faq-item active">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Para qual faixa etária o app é indicado?
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            O Idioma Kids foi desenvolvido para crianças de 3 a 12 anos. O conteúdo se adapta automaticamente à faixa etária, com exercícios mais visuais para os menores e atividades mais complexas para os maiores.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Meu filho precisa saber ler para usar o app?
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Não! As lições para crianças menores (3-5 anos) são totalmente baseadas em áudio, imagens e interações por toque. Seu filho pode aprender mesmo antes de ser alfabetizado.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Quanto tempo por dia meu filho deve usar o app?
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Recomendamos 10-15 minutos por dia para resultados consistentes. Cada lição dura cerca de 5 minutos, perfeito para manter a atenção e motivação da criança. Você pode configurar limites de tempo no controle parental.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Posso cancelar a assinatura a qualquer momento?
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Sim! Você pode cancelar sua assinatura a qualquer momento, sem multas ou taxas. Seu acesso continua até o fim do período já pago.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        O app funciona offline?
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            No plano Premium e Família, sim! Você pode baixar lições para que seu filho estude em viagens, carros ou qualquer lugar sem conexão com a internet.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Quais idiomas estão disponíveis?
+                        <span class="faq-arrow">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Atualmente oferecemos Inglês, Espanhol, Francês e Italiano. Alemão estará disponível em breve. Estamos constantemente expandindo nosso catálogo de idiomas!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA FINAL ===== -->
+    <section class="cta-final">
+        <div class="container cta-content">
+            <img src="Request_flags_drawing_style_2K_202608202305-Photoroom.png" alt="Aventura Idioma Kids" class="cta-mascot" style="max-width: 250px; margin: -50px auto 20px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15)); border-radius: 20px;">
+            <h2>Aprenda um idioma <span style="color: var(--orange-main)">brincando!</span></h2>
+            <p>Entre agora e comece a transformar o tempo de tela do seu filho em fluência. Garantia de 7 dias. Risco zero.</p>
+            <div class="cta-buttons">
+                <a href="#planos" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px 36px;">ASSINAR AGORA</a>
+            </div>
+            <p class="cta-note">🔒 Pagamento seguro &nbsp;·&nbsp; 🛡️ 7 dias de garantia &nbsp;·&nbsp; ❌ Cancele em 1 clique</p>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-text">IDIOMA <span>KIDS</span></div>
+                    <p>Transformando o tempo de tela em tempo de aprendizado. O app de idiomas #1 feito especialmente para crianças.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Produto</h4>
+                    <a href="#">Como funciona</a>
+                    <a href="#">Idiomas</a>
+                    <a href="#">Planos e preços</a>
+                    <a href="#">Para escolas</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <a href="#">Sobre nós</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Carreiras</a>
+                    <a href="#">Imprensa</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Suporte</h4>
+                    <a href="#">Central de ajuda</a>
+                    <a href="#">Contato</a>
+                    <a href="#">Privacidade</a>
+                    <a href="#">Termos de uso</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Idioma Kids. Todos os direitos reservados.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">📸</a>
+                    <a href="#" aria-label="YouTube">▶️</a>
+                    <a href="#" aria-label="TikTok">🎵</a>
+                    <a href="#" aria-label="Facebook">👤</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // =============================================
+        // BLACK OFFER COUNTDOWN TIMER
+        // =============================================
+        function initBlackTimer() {
+            // Define o tempo inicial: 3h, 45m, 12s em segundos
+            let tempoRestante = (3 * 3600) + (45 * 60) + 12;
+            const timerEl = document.getElementById('blackTimer');
+            
+            if (!timerEl) return;
+
+            setInterval(() => {
+                tempoRestante--;
+                if (tempoRestante < 0) tempoRestante = 0;
+
+                const h = Math.floor(tempoRestante / 3600).toString().padStart(2, '0');
+                const m = Math.floor((tempoRestante % 3600) / 60).toString().padStart(2, '0');
+                const s = (tempoRestante % 60).toString().padStart(2, '0');
+
+                timerEl.textContent = `${h}:${m}:${s}`;
+            }, 1000);
+        }
+        initBlackTimer();
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+
+        // FAQ toggle
+        function toggleFaq(button) {
+            const item = button.parentElement;
+            const wasActive = item.classList.contains('active');
+
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Toggle clicked
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Skip links that have their own onclick handlers (e.g., PIX modal buttons)
+                if (this.hasAttribute('onclick')) return;
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- ===== PIX PAYMENT MODAL ===== -->
+    <div class="pix-overlay" id="pixOverlay" onclick="fecharModalPix(event)">
+        <div class="pix-modal" onclick="event.stopPropagation()">
+            <!-- Header -->
+            <div class="pix-modal-header">
+                <div class="pix-modal-logo">
+                    <img src="Logo Idioma kids (1).png" alt="Tico" style="width:36px;height:36px;border-radius:8px;">
+                    <span style="font-weight:900;color:var(--purple-dark);font-size:1.1rem;">IDIOMA <span style="color:var(--orange-main);">KIDS</span></span>
+                </div>
+                <button class="pix-close-btn" onclick="fecharModalPix()" aria-label="Fechar">✕</button>
+            </div>
+
+            <!-- Step 1: Formulário -->
+            <div class="pix-step" id="pixStep1">
+                <div class="pix-plan-badge" id="pixPlanBadge">
+                    <span class="pix-plan-icon">👑</span>
+                    <div>
+                        <div class="pix-plan-name" id="pixPlanName">Premium</div>
+                        <div class="pix-plan-price" id="pixPlanPrice">R$ 29,90/mês</div>
+                    </div>
+                </div>
+
+                <h3 class="pix-title">Pagamento via <span style="color:var(--purple-main)">PIX</span></h3>
+                <p class="pix-subtitle">Preencha seus dados para gerar o QR Code instantâneo</p>
+
+                <form id="pixForm" onsubmit="gerarCobrancaPix(event)">
+                    <div class="pix-field">
+                        <label for="pixNome">Nome completo</label>
+                        <input type="text" id="pixNome" placeholder="Seu nome completo" required>
+                    </div>
+                    <div class="pix-field">
+                        <label for="pixEmail">E-mail</label>
+                        <input type="email" id="pixEmail" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="pix-field">
+                        <label for="pixTelefone">WhatsApp / Telefone</label>
+                        <input type="tel" id="pixTelefone" placeholder="(00) 00000-0000" required maxlength="15" oninput="mascaraTelefone(this)">
+                    </div>
+                    <button type="submit" class="btn btn-primary pix-submit-btn" id="pixSubmitBtn">
+                        🔐 Gerar QR Code PIX
+                    </button>
+                </form>
+                <p class="pix-security-note">🔒 Seus dados estão protegidos e não serão compartilhados.</p>
+            </div>
+
+            <!-- Step 2: QR Code -->
+            <div class="pix-step" id="pixStep2" style="display:none;">
+                <div class="pix-qr-header">
+                    <span class="pix-qr-icon">📱</span>
+                    <h3 class="pix-title" style="margin-bottom:4px;">Escaneie o QR Code</h3>
+                    <p class="pix-subtitle" style="margin-bottom:0;">Abra o app do seu banco e escaneie o código abaixo</p>
+                </div>
+
+                <div class="pix-qr-container">
+                    <div class="pix-qr-border">
+                        <img id="pixQrImage" src="" alt="QR Code PIX" class="pix-qr-image">
+                    </div>
+                    <div class="pix-valor-badge">
+                        <span>Valor:</span>
+                        <strong id="pixValorDisplay">R$ 29,90</strong>
+                    </div>
+                </div>
+
+                <div class="pix-copiaecola">
+                    <label>Ou copie o código PIX:</label>
+                    <div class="pix-copy-field">
+                        <input type="text" id="pixCopiaECola" readonly>
+                        <button type="button" class="pix-copy-btn" onclick="copiarCodigoPix()">
+                            <span id="copyBtnText">📋 Copiar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pix-timer">
+                    <span class="pix-timer-icon">⏱️</span>
+                    <span>Expira em <strong id="pixTimer">30:00</strong></span>
+                </div>
+
+                <div class="pix-aguardando">
+                    <div class="pix-spinner"></div>
+                    <span>Aguardando pagamento...</span>
+                </div>
+            </div>
+
+            <!-- Step 3: Sucesso -->
+            <div class="pix-step" id="pixStep3" style="display:none;">
+                <div class="pix-sucesso">
+                    <div class="pix-sucesso-check">✓</div>
+                    <h3 class="pix-title" style="color:var(--success);">Pagamento Confirmado! 🎉</h3>
+                    <p class="pix-subtitle">Bem-vindo ao Idioma Kids <strong id="pixSucessoPlano">Premium</strong>!</p>
+                    <img src="assets/mascot-poses-2.png" alt="Tico comemorando" style="width:160px;margin:20px auto;display:block;animation:float 3s ease-in-out infinite;">
+                    <p class="pix-sucesso-msg">Enviamos as instruções para o e-mail <strong id="pixSucessoEmail">—</strong>. Baixe o app e comece a aventura do seu filho!</p>
+                    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px;">
+                        <a href="#" class="btn btn-primary">📱 Baixar o App</a>
+                        <button class="btn btn-secondary" onclick="fecharModalPix()">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* ===== PIX MODAL STYLES ===== */
+        .pix-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(45, 27, 78, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .pix-overlay.open {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .pix-modal {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 460px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(45, 27, 78, 0.3);
+            animation: slideUp 0.35s ease;
+        }
+
+        .pix-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 28px;
+            border-bottom: 2px solid var(--cream-dark);
+        }
+
+        .pix-modal-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pix-close-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--cream-dark);
+            background: var(--cream);
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .pix-close-btn:hover {
+            background: #ffe0e0;
+            border-color: #ffb0b0;
+            color: #c00;
+        }
+
+        .pix-step {
+            padding: 28px;
+        }
+
+        .pix-plan-badge {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--purple-bg);
+            border: 2px solid var(--purple-lighter);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .pix-plan-icon {
+            font-size: 32px;
+        }
+
+        .pix-plan-name {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .pix-plan-price {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--purple-main);
+        }
+
+        .pix-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .pix-subtitle {
+            font-size: 0.92rem;
+            color: var(--text-medium);
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .pix-field {
+            margin-bottom: 16px;
+        }
+
+        .pix-field label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .pix-field input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--cream-dark);
+            border-radius: var(--radius-sm);
+            font-family: 'Nunito', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            background: var(--cream);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .pix-field input:focus {
+            border-color: var(--purple-lighter);
+            box-shadow: 0 0 0 4px rgba(123, 47, 175, 0.1);
+            background: var(--white);
+        }
+
+        .pix-field input::placeholder {
+            color: var(--text-light);
+        }
+
+        .pix-submit-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 16px !important;
+            font-size: 1.05rem !important;
+        }
+
+        .pix-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .pix-security-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-top: 16px;
+        }
+
+        /* QR Code step */
+        .pix-qr-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .pix-qr-icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .pix-qr-container {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .pix-qr-border {
+            display: inline-block;
+            padding: 16px;
+            border: 3px solid var(--purple-main);
+            border-radius: var(--radius-md);
+            background: var(--white);
+            box-shadow: 0 4px 20px rgba(123, 47, 175, 0.1);
+        }
+
+        .pix-qr-image {
+            width: 220px;
+            height: 220px;
+            display: block;
+        }
+
+        .pix-valor-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            background: var(--purple-bg);
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .pix-valor-badge strong {
+            color: var(--purple-main);
+            font-size: 1.2rem;
+        }
+
+        .pix-copiaecola {
+            margin-bottom: 20px;
+        }
+
+        .pix-copiaecola label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .pix-copy-field {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pix-copy-field input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 2px solid var(--cream-dark);
+            border-radius: var(--radius-sm);
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-medium);
+            background: var(--cream);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pix-copy-btn {
+            flex-shrink: 0;
+            padding: 12px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: var(--purple-main);
+            color: var(--white);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 3px 0 var(--purple-dark);
+        }
+
+        .pix-copy-btn:hover {
+            background: var(--purple-light);
+        }
+
+        .pix-copy-btn:active {
+            transform: translateY(3px);
+            box-shadow: none;
+        }
+
+        .pix-copy-btn.copied {
+            background: var(--success);
+            box-shadow: 0 3px 0 #388E3C;
+        }
+
+        .pix-timer {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-medium);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pix-timer-icon {
+            font-size: 1.1rem;
+        }
+
+        .pix-timer strong {
+            color: var(--orange-main);
+            font-size: 1.1rem;
+        }
+
+        .pix-aguardando {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-medium);
+        }
+
+        .pix-spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid var(--purple-lighter);
+            border-top-color: var(--purple-main);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Sucesso */
+        .pix-sucesso {
+            text-align: center;
+            padding: 16px 0;
+        }
+
+        .pix-sucesso-check {
+            width: 72px;
+            height: 72px;
+            background: var(--success);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 900;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 0 #388E3C;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .pix-sucesso-msg {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            font-weight: 600;
+            line-height: 1.6;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .pix-modal {
+                max-height: 95vh;
+                border-radius: var(--radius-md);
+            }
+
+            .pix-step {
+                padding: 20px;
+            }
+
+            .pix-qr-image {
+                width: 180px;
+                height: 180px;
+            }
+
+            .pix-copy-field {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <script>
+        // =============================================
+        // PIX PAYMENT SYSTEM — Idioma Kids
+        // =============================================
+
+        // URL base do backend (mude para sua URL de produção depois)
+        const API_BASE = window.location.origin;
+
+        let pixPollingInterval = null;
+        let pixTimerInterval = null;
+        let pixPlanoSelecionado = '';
+
+        const PLANOS_INFO = {
+            premium: { nome: 'Premium', icon: '👑', preco: 'R$ 29,90/mês', valor: '29.90' },
+            familia: { nome: 'Família', icon: '👨‍👩‍👧‍👦', preco: 'R$ 49,90/mês', valor: '49.90' }
+        };
+
+        // ---- Abrir modal ----
+        function abrirModalPix(plano) {
+            pixPlanoSelecionado = plano;
+            const info = PLANOS_INFO[plano];
+
+            document.getElementById('pixPlanName').textContent = info.nome;
+            document.getElementById('pixPlanPrice').textContent = info.preco;
+            document.getElementById('pixPlanBadge').querySelector('.pix-plan-icon').textContent = info.icon;
+
+            // Reset para step 1
+            document.getElementById('pixStep1').style.display = 'block';
+            document.getElementById('pixStep2').style.display = 'none';
+            document.getElementById('pixStep3').style.display = 'none';
+            document.getElementById('pixForm').reset();
+            document.getElementById('pixSubmitBtn').disabled = false;
+            document.getElementById('pixSubmitBtn').innerHTML = '🔐 Gerar QR Code PIX';
+
+            document.getElementById('pixOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ---- Fechar modal ----
+        function fecharModalPix(event) {
+            if (event && event.target !== event.currentTarget) return;
+
+            document.getElementById('pixOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+
+            // Limpa polling e timer
+            if (pixPollingInterval) clearInterval(pixPollingInterval);
+            if (pixTimerInterval) clearInterval(pixTimerInterval);
+        }
+
+        // ---- Máscara Telefone ----
+        function mascaraTelefone(input) {
+            let v = input.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 10) {
+                v = v.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+            } else if (v.length > 5) {
+                v = v.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+            } else if (v.length > 2) {
+                v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+            }
+            input.value = v;
+        }
+
+        // ---- Gerar cobrança PIX ----
+        async function gerarCobrancaPix(event) {
+            event.preventDefault();
+
+            const btn = document.getElementById('pixSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="pix-spinner" style="width:18px;height:18px;border-width:2px;display:inline-block;vertical-align:middle;margin-right:8px;"></span> Gerando...';
+
+            const nome = document.getElementById('pixNome').value.trim();
+            const email = document.getElementById('pixEmail').value.trim();
+            const telefone = document.getElementById('pixTelefone').value.trim();
+
+            try {
+                const response = await fetch(`${API_BASE}/api/pix/criar-cobranca`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome,
+                        email,
+                        telefone,
+                        plano: pixPlanoSelecionado
+                    })
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || 'Erro ao gerar cobrança');
+                }
+
+                const data = await response.json();
+
+                // Mostra step 2 (QR Code)
+                exibirQrCode(data, email);
+
+            } catch (error) {
+                console.error('Erro PIX:', error);
+                alert('❌ ' + (error.message || 'Erro ao gerar cobrança PIX. Tente novamente.'));
+                btn.disabled = false;
+                btn.innerHTML = '🔐 Gerar QR Code PIX';
+            }
+        }
+
+        // ---- Exibir QR Code ----
+        function exibirQrCode(data, email) {
+            document.getElementById('pixStep1').style.display = 'none';
+            document.getElementById('pixStep2').style.display = 'block';
+
+            // QR Code image
+            document.getElementById('pixQrImage').src = data.qrcode;
+
+            // Código copia e cola
+            document.getElementById('pixCopiaECola').value = data.copiaecola;
+
+            // Valor
+            const info = PLANOS_INFO[pixPlanoSelecionado];
+            document.getElementById('pixValorDisplay').textContent = info.preco.replace('/mês', '');
+
+            // Timer de expiração
+            let tempoRestante = data.expiracao || 1800;
+            atualizarTimer(tempoRestante);
+            pixTimerInterval = setInterval(() => {
+                tempoRestante--;
+                if (tempoRestante <= 0) {
+                    clearInterval(pixTimerInterval);
+                    clearInterval(pixPollingInterval);
+                    alert('⏰ O QR Code expirou. Gere um novo.');
+                    fecharModalPix();
+                    return;
+                }
+                atualizarTimer(tempoRestante);
+            }, 1000);
+
+            // Polling para verificar pagamento
+            pixPollingInterval = setInterval(async () => {
+                try {
+                    const resp = await fetch(`${API_BASE}/api/pix/status/${data.txid}`);
+                    const status = await resp.json();
+
+                    if (status.pago) {
+                        clearInterval(pixPollingInterval);
+                        clearInterval(pixTimerInterval);
+                        exibirSucesso(email);
+                    }
+                } catch (e) {
+                    console.warn('Erro ao verificar status:', e);
+                }
+            }, 3000); // Verifica a cada 3 segundos
+        }
+
+        // ---- Atualizar timer ----
+        function atualizarTimer(segundos) {
+            const min = Math.floor(segundos / 60).toString().padStart(2, '0');
+            const sec = (segundos % 60).toString().padStart(2, '0');
+            document.getElementById('pixTimer').textContent = `${min}:${sec}`;
+        }
+
+        // ---- Copiar código PIX ----
+        function copiarCodigoPix() {
+            const input = document.getElementById('pixCopiaECola');
+            input.select();
+            input.setSelectionRange(0, 99999);
+
+            navigator.clipboard.writeText(input.value).then(() => {
+                const btn = document.querySelector('.pix-copy-btn');
+                const texto = document.getElementById('copyBtnText');
+                btn.classList.add('copied');
+                texto.textContent = '✅ Copiado!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    texto.textContent = '📋 Copiar';
+                }, 2500);
+            }).catch(() => {
+                document.execCommand('copy');
+            });
+        }
+
+        // ---- Tela de sucesso ----
+        function exibirSucesso(email) {
+            document.getElementById('pixStep2').style.display = 'none';
+            document.getElementById('pixStep3').style.display = 'block';
+
+            const info = PLANOS_INFO[pixPlanoSelecionado];
+            document.getElementById('pixSucessoPlano').textContent = info.nome;
+            document.getElementById('pixSucessoEmail').textContent = email;
+        }
+
+        // Fechar modal com Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') fecharModalPix();
+        });
+    </script>
+</body>
+</html>
