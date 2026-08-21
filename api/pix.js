@@ -47,8 +47,9 @@ export default async function handler(req, res) {
         }
 
         res.status(200).json({
-            qrCodeUrl: data.pix.image,
-            pixCopiaECola: data.pix.code
+            qrcode: data.pix.image || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(data.pix.code)}`,
+            copiaecola: data.pix.code,
+            txid: data.transactionId
         });
 
     } catch (error) {
