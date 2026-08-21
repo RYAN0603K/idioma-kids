@@ -10,40 +10,45 @@ export default async function handler(req, res) {
     const CLIENT_SECRET = process.env.OASYFY_CLIENT_SECRET;
     
     if (!CLIENT_ID || !CLIENT_SECRET) {
-        return res.status(500).json({ error: 'Chaves da Oasyfy não configuradas nas Variáveis de Ambiente da Vercel.' });
+        return res.status(500).json({ error: 'Chaves da Oasyfy nÃ£o configuradas nas VariÃ¡veis de Ambiente da Vercel.' });
     }
 
-    const auth = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
-
     try {
-        const response = await fetch('https://app.oasyfy.com/api/v1/pagamentos/pix', {
+        const response = await fetch('https://app.oasyfy.com/api/v1/gateway/pix/receive', {
             method: 'POST',
             headers: {
-                'Authorization': `Basic ${auth}`,
+                'x-public-key': CLIENT_ID,
+                'x-secret-key': CLIENT_SECRET,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                identifier: `req-${Date.now()}`,
                 amount: amount,
-                description: `Idioma Kids - Plano ${plano}`,
-                customer: {
+                client: {
                     name: nome || 'Cliente',
                     email: email || 'cliente@email.com',
+                    phone: telefone || '(11) 99999-9999',
                     document: '00000000000'
                 }
             })
         });
 
-        const rawText = await response.text(); let data; try { data = JSON.parse(rawText); } catch(e) { data = rawText; }
+        const rawText = await response.text(); 
+        let data; 
+        try { 
+            data = JSON.parse(rawText); 
+        } catch(e) { 
+            data = rawText; 
+        }
 
-        if (!response.ok || !data) {
+        if (!response.ok || !data || !data.pix) {
             console.error('Oasyfy API Error:', data);
-            return res.status(400).json({ error: 'Erro de comunicação com Oasyfy', details: data });
+            return res.status(400).json({ error: 'Erro de comunicaÃ§Ã£o com Oasyfy', details: data });
         }
 
         res.status(200).json({
-            qrCode: data.qrcode || data.qr_code || 'QR_CODE_NOT_RETURNED',
-            qrCodeUrl: data.qrcode_url || data.qr_code_url || '',
-            pixCopiaECola: data.pix_copia_e_cola || data.payload || 'COPIA_E_COLA_NOT_RETURNED'
+            qrCodeUrl: data.pix.image,
+            pixCopiaECola: data.pix.code
         });
 
     } catch (error) {
