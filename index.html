@@ -2132,7 +2132,7 @@
                         <li>Método validado que vicia positivamente</li>
                         <li class="bonus-item">🎁 BÔNUS: E-book de Atividades Práticas</li>
                     </ul>
-                    <a href="COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px;" target="_blank">ASSINAR AGORA</a>
+                    <a href="#" class="btn btn-primary btn-pulse" style="font-size: 1.1rem; padding: 18px;" onclick="event.preventDefault(); abrirModalPix('premium');">ASSINAR AGORA</a>
                 </div>
                 
                 <div class="pricing-card  fade-up">
@@ -2154,7 +2154,7 @@
                         <li class="bonus-item">🎁 BÔNUS: E-book de Atividades Práticas</li>
                         <li class="bonus-item">🎁 BÔNUS: Guia em Áudio para Pais</li>
                     </ul>
-                    <a href="COLOQUE_SEU_LINK_DE_CHECKOUT_AQUI_FAMILIA" class="btn btn-purple" target="_blank">ASSINAR FAMÍLIA</a>
+                    <a href="#" class="btn btn-purple" onclick="event.preventDefault(); abrirModalPix('familia');">ASSINAR FAMÍLIA</a>
                 </div>
             </div>
 
@@ -3204,6 +3204,141 @@
                 document.getElementById('pixStep2').style.display = 'block';
             } catch (error) {
                 alert('Erro: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '📲 Gerar QR Code PIX';
+            }
+        }
+
+        function copiarPix() {
+            const input = document.getElementById('pixCopiaCola');
+            input.select();
+            document.execCommand('copy');
+            alert('Código PIX copiado!');
+        }
+    </script>
+    <!-- ===== PIX MODAL ===== -->
+    <div id="pixModal" class="pix-modal-overlay">
+        <div class="pix-modal-content">
+            <button class="pix-modal-close" onclick="fecharModalPix()">&times;</button>
+            
+            <div id="pixStep1">
+                <h3 style="color: var(--purple-dark); margin-bottom: 20px;">Garantir Vaga</h3>
+                <form id="pixForm" onsubmit="gerarCobrancaPix(event)">
+                    <div class="pix-form-group">
+                        <label>Nome do responsável</label>
+                        <input type="text" id="pixNome" required placeholder="Digite seu nome">
+                    </div>
+                    <div class="pix-form-group">
+                        <label>E-mail de acesso</label>
+                        <input type="email" id="pixEmail" required placeholder="Onde vai receber o acesso">
+                    </div>
+                    <div class="pix-form-group">
+                        <label>WhatsApp</label>
+                        <input type="tel" id="pixTelefone" required placeholder="(11) 99999-9999" onkeyup="maskPhone(this)">
+                    </div>
+                    <button type="submit" id="pixSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 16px; margin-top: 10px;">
+                        📲 Gerar QR Code PIX
+                    </button>
+                </form>
+                <div style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-medium);">
+                    🔒 Pagamento 100% seguro via Oasyfy
+                </div>
+            </div>
+
+            <div id="pixStep2" style="display: none; text-align: center;">
+                <h3 style="color: var(--purple-dark); margin-bottom: 10px;">Pagamento Gerado!</h3>
+                <p style="font-size: 0.9rem; color: var(--text-medium); margin-bottom: 20px;">
+                    Abra o app do seu banco e escaneie o QR Code abaixo ou copie o código PIX.
+                </p>
+                <div id="qrCodeContainer" style="background: #fff; padding: 15px; border-radius: 10px; display: inline-block; margin-bottom: 15px; border: 2px solid #eee;">
+                    <img id="qrCodeImg" src="" alt="QR Code PIX" style="width: 200px; height: 200px;">
+                </div>
+                <div>
+                    <button class="btn btn-secondary" onclick="copiarPix()" style="width: 100%; padding: 14px; margin-bottom: 10px;">
+                        📋 Copiar Código PIX
+                    </button>
+                </div>
+                <input type="text" id="pixCopiaCola" style="position: absolute; left: -9999px;">
+                <p style="font-size: 0.8rem; color: var(--text-medium); margin-top: 15px;">
+                    Assim que o pagamento for confirmado, você receberá o acesso no e-mail: <strong id="lblEmailComprador"></strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .pix-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 9999; backdrop-filter: blur(5px);
+            align-items: center; justify-content: center;
+        }
+        .pix-modal-content {
+            background: #fff; width: 90%; max-width: 400px; border-radius: var(--radius-lg);
+            padding: 30px; position: relative; border-bottom: 4px solid #E5E5E5;
+        }
+        .pix-modal-close {
+            position: absolute; top: 15px; right: 15px; background: none; border: none;
+            font-size: 24px; cursor: pointer; color: var(--text-medium);
+        }
+        .pix-form-group { margin-bottom: 15px; text-align: left; }
+        .pix-form-group label { display: block; margin-bottom: 5px; font-weight: 700; color: var(--text-dark); font-size: 0.9rem; }
+        .pix-form-group input { width: 100%; padding: 12px; border: 2px solid #E5E5E5; border-radius: var(--radius-sm); font-family: inherit; }
+        .pix-form-group input:focus { border-color: var(--orange-main); outline: none; }
+    </style>
+
+    <script>
+        // API_BASE aponta para onde hospedaremos o backend. Para teste local é localhost:3000
+        const API_BASE = 'http://localhost:3000';
+        let pixPlanoSelecionado = 'premium';
+
+        function abrirModalPix(plano) {
+            pixPlanoSelecionado = plano;
+            document.getElementById('pixModal').style.display = 'flex';
+            document.getElementById('pixStep1').style.display = 'block';
+            document.getElementById('pixStep2').style.display = 'none';
+        }
+
+        function fecharModalPix() {
+            document.getElementById('pixModal').style.display = 'none';
+        }
+
+        function maskPhone(input) {
+            let v = input.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 2) v = '(' + v.substring(0,2) + ') ' + v.substring(2);
+            if (v.length > 9) v = v.substring(0,10) + '-' + v.substring(10);
+            input.value = v;
+        }
+
+        async function gerarCobrancaPix(event) {
+            event.preventDefault();
+            const btn = document.getElementById('pixSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = 'Gerando...';
+
+            const nome = document.getElementById('pixNome').value.trim();
+            const email = document.getElementById('pixEmail').value.trim();
+            const telefone = document.getElementById('pixTelefone').value.trim();
+
+            try {
+                const response = await fetch(API_BASE + '/api/pix', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome, email, telefone, plano: pixPlanoSelecionado })
+                });
+
+                const data = await response.json().catch(() => null);
+                if (!response.ok || !data) throw new Error(data ? data.error : 'Erro na cobrança');
+
+                document.getElementById('qrCodeImg').src = data.qrCodeUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(data.pixCopiaECola);
+                document.getElementById('pixCopiaCola').value = data.pixCopiaECola;
+                document.getElementById('lblEmailComprador').textContent = email;
+                
+                document.getElementById('pixStep1').style.display = 'none';
+                document.getElementById('pixStep2').style.display = 'block';
+            } catch (error) {
+                alert('Erro: ' + error.message + '\n\nVerifique se o backend está rodando no Render ou Localhost.');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '📲 Gerar QR Code PIX';
