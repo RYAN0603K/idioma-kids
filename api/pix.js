@@ -33,7 +33,7 @@ export default async function handler(req, res) {
             })
         });
 
-        const data = await response.json().catch(() => null);
+        const rawText = await response.text(); let data; try { data = JSON.parse(rawText); } catch(e) { data = rawText; }
 
         if (!response.ok || !data) {
             console.error('Oasyfy API Error:', data);
