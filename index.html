@@ -1859,6 +1859,20 @@
     </style>
 </head>
 <body>
+    <!-- ===== URGENCY TIMER ===== -->
+    <div id="urgency-bar" style="background: var(--orange-main); color: #fff; text-align: center; padding: 12px; font-weight: 800; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-size: 0.95rem;">
+        ⏳ ÚLTIMAS HORAS: Libere acesso a TODOS os idiomas com 80% de desconto! Expira em <span id="countdown" style="background: #fff; color: var(--orange-main); padding: 2px 8px; border-radius: 6px; margin-left: 5px;">14:59</span>
+    </div>
+    <script>
+        let tempo = 14 * 60 + 59;
+        setInterval(() => {
+            let min = Math.floor(tempo / 60);
+            let seg = tempo % 60;
+            let el = document.getElementById('countdown');
+            if(el) el.innerText = ${min}:;
+            if(tempo > 0) tempo--;
+        }, 1000);
+    </script>
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
         <div class="container navbar-inner">
@@ -2321,6 +2335,8 @@
                     <div class="pricing-popular" >⭐ A Escolha Certa</div>
                     <div class="pricing-icon">🚀</div>
                     <h3 class="pricing-name" style="color: var(--purple-dark);">Passaporte VIP</h3>
+                    
+                    <div class="price-strike" style="color: var(--text-light); text-decoration: line-through; font-size: 1rem; font-weight: 700; margin-bottom: -5px;">De R$ 197,00 por apenas</div>
                     
                     <div class="pricing-price neon-text" style="color: var(--orange-main); font-weight: 900;">
                         <span class="currency">R$</span>29<span style="font-size:1.5rem">,90</span>
@@ -3945,6 +3961,7 @@
     </script>
 </body>
 </html>
+
 
 
 
