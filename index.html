@@ -3471,27 +3471,27 @@
         });
     </script>
     <!-- ===== PIX MODAL ===== -->
-    <div id="pixModal" class="pix-modal-overlay">
-        <div class="pix-modal-content">
-            <button class="pix-modal-close" onclick="fecharModalPix()">&times;</button>
+    <div id="pixModal" class="pix-modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center;">
+        <div class="pix-modal-content" style="background:#fff; padding:30px; border-radius:24px; width:90%; max-width:400px; position:relative;">
+            <button class="pix-modal-close" onclick="fecharModalPix()" style="position:absolute; top:15px; right:20px; border:none; background:none; font-size:1.5rem; cursor:pointer;">&times;</button>
             
             <div id="pixStep1">
                 <h3 style="color: var(--purple-dark); margin-bottom: 20px;">Garantir Vaga</h3>
                 <form id="pixForm" onsubmit="gerarCobrancaPix(event)">
-                    <div class="pix-form-group">
-                        <label>Nome do responsável</label>
-                        <input type="text" id="pixNome" required placeholder="Digite seu nome">
+                    <div class="pix-form-group" style="margin-bottom:15px;">
+                        <label style="display:block; margin-bottom:5px; font-weight:700;">Nome do responsável</label>
+                        <input type="text" id="pixNome" required placeholder="Digite seu nome" style="width:100%; padding:12px; border-radius:12px; border:2px solid #E5E5E5;">
                     </div>
-                    <div class="pix-form-group">
-                        <label>E-mail de acesso</label>
-                        <input type="email" id="pixEmail" required placeholder="Onde vai receber o acesso">
+                    <div class="pix-form-group" style="margin-bottom:15px;">
+                        <label style="display:block; margin-bottom:5px; font-weight:700;">E-mail de acesso</label>
+                        <input type="email" id="pixEmail" required placeholder="Onde vai receber o acesso" style="width:100%; padding:12px; border-radius:12px; border:2px solid #E5E5E5;">
                     </div>
-                    <div class="pix-form-group">
-                        <label>WhatsApp</label>
-                        <input type="tel" id="pixTelefone" required placeholder="(11) 99999-9999" onkeyup="maskPhone(this)">
+                    <div class="pix-form-group" style="margin-bottom:15px;">
+                        <label style="display:block; margin-bottom:5px; font-weight:700;">WhatsApp</label>
+                        <input type="tel" id="pixTelefone" required placeholder="(11) 99999-9999" onkeyup="maskPhone(this)" style="width:100%; padding:12px; border-radius:12px; border:2px solid #E5E5E5;">
                     </div>
                     <button type="submit" id="pixSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 16px; margin-top: 10px;">
-                        📲 Gerar QR Code PIX
+                        Pix - Gerar QR Code
                     </button>
                 </form>
                 <div style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-medium);">
@@ -3499,403 +3499,17 @@
                 </div>
             </div>
 
-            <div id="pixStep2" style="display: none; text-align: center;">
-                <h3 style="color: var(--purple-dark); margin-bottom: 10px;">Pagamento Gerado!</h3>
-                <p style="font-size: 0.9rem; color: var(--text-medium); margin-bottom: 20px;">
-                    Abra o app do seu banco e escaneie o QR Code abaixo ou copie o código PIX.
-                </p>
-                <div id="qrCodeContainer" style="background: #fff; padding: 15px; border-radius: 10px; display: inline-block; margin-bottom: 15px; border: 2px solid #eee;">
-                    <img id="qrCodeImg" src="" alt="QR Code PIX" style="width: 200px; height: 200px;">
-                </div>
-                <div>
-                    <button class="btn btn-secondary" onclick="copiarPix()" style="width: 100%; padding: 14px; margin-bottom: 10px;">
-                        📋 Copiar Código PIX
-                    </button>
-                </div>
-                <input type="text" id="pixCopiaCola" style="position: absolute; left: -9999px;">
-                <p style="font-size: 0.8rem; color: var(--text-medium); margin-top: 15px;">
-                    Assim que o pagamento for confirmado, você receberá o acesso no e-mail: <strong id="lblEmailComprador"></strong>
-                </p>
+            <div id="pixStep2" style="display:none; text-align:center;">
+                <h3 style="color: var(--duo-green); margin-bottom: 10px;">PIX Gerado!</h3>
+                <p style="font-size:0.9rem; color:var(--text-medium); margin-bottom:20px;">Abra o app do seu banco e escaneie ou copie o código abaixo.</p>
+                <img id="qrCodeImg" src="" alt="QR Code" style="width:200px; height:200px; margin:0 auto; display:block; border:4px solid #F5F5F5; border-radius:16px;">
+                <input type="text" id="pixCopiaCola" readonly style="width:100%; padding:12px; border-radius:12px; border:2px solid #E5E5E5; margin-top:15px; background:#F7F7F7; text-align:center;">
+                <button onclick="copiarPix()" class="btn btn-primary" style="width:100%; margin-top:10px; padding:12px;">Copiar Código PIX</button>
             </div>
         </div>
     </div>
 
-    <style>
-        .pix-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 9999; backdrop-filter: blur(5px);
-            align-itemês: center; justify-content: center;
-        }
-        .pix-modal-content {
-            background: #fff; width: 90%; max-width: 400px; border-radius: var(--radius-lg);
-            padding: 30px; position: relative; border-bottom: 4px solid #E5E5E5;
-        }
-        .pix-modal-close {
-            position: absolute; top: 15px; right: 15px; background: none; border: none;
-            font-size: 24px; cursor: pointer; color: var(--text-medium);
-        }
-        .pix-form-group { margin-bottom: 15px; text-align: left; }
-        .pix-form-group label { display: block; margin-bottom: 5px; font-weight: 700; color: var(--text-dark); font-size: 0.9rem; }
-        .pix-form-group input { width: 100%; padding: 12px; border: 2px solid #E5E5E5; border-radius: var(--radius-sm); font-family: inherit; }
-        .pix-form-group input:focus { border-color: var(--orange-main); outline: none; }
-            .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 16px 32px;
-            border: none;
-            border-radius: 16px; /* Duolingo rounded style */
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
-            text-decoration: none;
-            position: relative;
-        }
-
-        .btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 transparent !important;
-        }
-
-        .btn-primary {
-            background: var(--duo-green);
-            color: var(--white);
-            box-shadow: 0 4px 0 var(--duo-green-dark);
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            border-radius: 16px;
-        }
-
-        .btn-primary:hover {
-            background: var(--duo-green-hover);
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 var(--duo-green-dark);
-        }
-        
-        .btn-primary:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 var(--duo-green-dark) !important;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-dark);
-            border: 2px solid #E5E5E5;
-            box-shadow: 0 4px 0 #E5E5E5;
-            border-radius: 16px;
-        }
-        
-        .btn-secondary:hover {
-            background: #F7F7F7;
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #E5E5E5;
-        }
-        
-        .btn-secondary:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 #E5E5E5 !important;
-        }
-            /* Duolingo Gamification Styles */
-        .step-card {
-            border: 2px solid #E5E5E5;
-            border-radius: 24px;
-            box-shadow: 0 6px 0 #E5E5E5;
-            padding: 40px 30px;
-            background: #FFFFFF;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-        }
-        
-        .step-card:hover {
-            transform: translateY(2px);
-            box-shadow: 0 4px 0 #E5E5E5;
-            border-color: var(--duo-green-hover);
-        }
-
-        .step-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: inline-block;
-            background: #F5EEFA;
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            border-radius: 24px;
-            border: 2px solid #E5E5E5;
-            box-shadow: 0 4px 0 #E5E5E5;
-        }
-        
-        .pix-modal-content {
-            border-radius: 24px !important;
-            border: 2px solid #E5E5E5 !important;
-            border-bottom: 6px solid #E5E5E5 !important;
-        }
-        
-        .pix-form-group input {
-            border-radius: 16px !important;
-            border: 2px solid #E5E5E5 !important;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
-            background: #F7F7F7 !important;
-        }
-        
-        .pix-form-group input:focus {
-            background: #FFFFFF !important;
-            border-color: var(--duo-green) !important;
-        }
-    </style>
-
     <script>
-        const API_BASE = '';
-        let pixPlanoSelecionado = 'premium';
-
-        function abrirModalPix(plano) {
-            pixPlanoSelecionado = plano;
-            document.getElementById('pixModal').style.display = 'flex';
-            document.getElementById('pixStep1').style.display = 'block';
-            document.getElementById('pixStep2').style.display = 'none';
-        }
-
-        function fecharModalPix() {
-            document.getElementById('pixModal').style.display = 'none';
-        }
-
-        function maskPhone(input) {
-            let v = input.value.replace(/\D/g, '');
-            if (v.length > 11) v = v.slice(0, 11);
-            if (v.length > 2) v = '(' + v.substring(0,2) + ') ' + v.substring(2);
-            if (v.length > 9) v = v.substring(0,10) + '-' + v.substring(10);
-            input.value = v;
-        }
-
-        async function gerarCobrancaPix(event) {
-            event.preventDefault();
-            const btn = document.getElementById('pixSubmitBtn');
-            btn.disabled = true;
-            btn.innerHTML = 'Gerando...';
-
-            const nome = document.getElementById('pixNome').value.trim();
-            const email = document.getElementById('pixEmail').value.trim();
-            const telefone = document.getElementById('pixTelefone').value.trim();
-
-            try {
-                const response = await fetch(API_BASE + '/api/pix', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nome, email, telefone, plano: pixPlanoSelecionado })
-                });
-
-                const data = await response.json();
-                if (!response.ok) throw new Error(data.error || 'Erro na cobrança');
-
-                document.getElementById('qrCodeImg').src = data.qrCodeUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(data.pixCopiaECola);
-                document.getElementById('pixCopiaCola').value = data.pixCopiaECola;
-                document.getElementById('lblEmailComprador').textContent = email;
-                
-                document.getElementById('pixStep1').style.display = 'none';
-                document.getElementById('pixStep2').style.display = 'block';
-            } catch (error) {
-                alert('Erro: ' + error.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '📲 Gerar QR Code PIX';
-            }
-        }
-
-        function copiarPix() {
-            const input = document.getElementById('pixCopiaCola');
-            input.select();
-            document.execCommand('copy');
-            alert('Código PIX Copiado!');
-        }
-    </script>
-    <!-- ===== PIX MODAL ===== -->
-    <div id="pixModal" class="pix-modal-overlay">
-        <div class="pix-modal-content">
-            <button class="pix-modal-close" onclick="fecharModalPix()">&times;</button>
-            
-            <div id="pixStep1">
-                <h3 style="color: var(--purple-dark); margin-bottom: 20px;">Garantir Vaga</h3>
-                <form id="pixForm" onsubmit="gerarCobrancaPix(event)">
-                    <div class="pix-form-group">
-                        <label>Nome do responsável</label>
-                        <input type="text" id="pixNome" required placeholder="Digite seu nome">
-                    </div>
-                    <div class="pix-form-group">
-                        <label>E-mail de acesso</label>
-                        <input type="email" id="pixEmail" required placeholder="Onde vai receber o acesso">
-                    </div>
-                    <div class="pix-form-group">
-                        <label>WhatsApp</label>
-                        <input type="tel" id="pixTelefone" required placeholder="(11) 99999-9999" onkeyup="maskPhone(this)">
-                    </div>
-                    <button type="submit" id="pixSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 16px; margin-top: 10px;">
-                        📲 Gerar QR Code PIX
-                    </button>
-                </form>
-                <div style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: var(--text-medium);">
-                    🔒 Pagamento 100% seguro via Oasyfy
-                </div>
-            </div>
-
-            <div id="pixStep2" style="display: none; text-align: center;">
-                <h3 style="color: var(--purple-dark); margin-bottom: 10px;">Pagamento Gerado!</h3>
-                <p style="font-size: 0.9rem; color: var(--text-medium); margin-bottom: 20px;">
-                    Abra o app do seu banco e escaneie o QR Code abaixo ou copie o código PIX.
-                </p>
-                <div id="qrCodeContainer" style="background: #fff; padding: 15px; border-radius: 10px; display: inline-block; margin-bottom: 15px; border: 2px solid #eee;">
-                    <img id="qrCodeImg" src="" alt="QR Code PIX" style="width: 200px; height: 200px;">
-                </div>
-                <div>
-                    <button class="btn btn-secondary" onclick="copiarPix()" style="width: 100%; padding: 14px; margin-bottom: 10px;">
-                        📋 Copiar Código PIX
-                    </button>
-                </div>
-                <input type="text" id="pixCopiaCola" style="position: absolute; left: -9999px;">
-                <p style="font-size: 0.8rem; color: var(--text-medium); margin-top: 15px;">
-                    Assim que o pagamento for confirmado, você receberá o acesso no e-mail: <strong id="lblEmailComprador"></strong>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <style>
-        .pix-modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 9999; backdrop-filter: blur(5px);
-            align-itemês: center; justify-content: center;
-        }
-        .pix-modal-content {
-            background: #fff; width: 90%; max-width: 400px; border-radius: var(--radius-lg);
-            padding: 30px; position: relative; border-bottom: 4px solid #E5E5E5;
-        }
-        .pix-modal-close {
-            position: absolute; top: 15px; right: 15px; background: none; border: none;
-            font-size: 24px; cursor: pointer; color: var(--text-medium);
-        }
-        .pix-form-group { margin-bottom: 15px; text-align: left; }
-        .pix-form-group label { display: block; margin-bottom: 5px; font-weight: 700; color: var(--text-dark); font-size: 0.9rem; }
-        .pix-form-group input { width: 100%; padding: 12px; border: 2px solid #E5E5E5; border-radius: var(--radius-sm); font-family: inherit; }
-        .pix-form-group input:focus { border-color: var(--orange-main); outline: none; }
-            .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 16px 32px;
-            border: none;
-            border-radius: 16px; /* Duolingo rounded style */
-            font-family: 'Nunito', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
-            text-decoration: none;
-            position: relative;
-        }
-
-        .btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 transparent !important;
-        }
-
-        .btn-primary {
-            background: var(--duo-green);
-            color: var(--white);
-            box-shadow: 0 4px 0 var(--duo-green-dark);
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            border-radius: 16px;
-        }
-
-        .btn-primary:hover {
-            background: var(--duo-green-hover);
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 var(--duo-green-dark);
-        }
-        
-        .btn-primary:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 var(--duo-green-dark) !important;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-dark);
-            border: 2px solid #E5E5E5;
-            box-shadow: 0 4px 0 #E5E5E5;
-            border-radius: 16px;
-        }
-        
-        .btn-secondary:hover {
-            background: #F7F7F7;
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #E5E5E5;
-        }
-        
-        .btn-secondary:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 #E5E5E5 !important;
-        }
-            /* Duolingo Gamification Styles */
-        .step-card {
-            border: 2px solid #E5E5E5;
-            border-radius: 24px;
-            box-shadow: 0 6px 0 #E5E5E5;
-            padding: 40px 30px;
-            background: #FFFFFF;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-        }
-        
-        .step-card:hover {
-            transform: translateY(2px);
-            box-shadow: 0 4px 0 #E5E5E5;
-            border-color: var(--duo-green-hover);
-        }
-
-        .step-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: inline-block;
-            background: #F5EEFA;
-            width: 80px;
-            height: 80px;
-            line-height: 80px;
-            border-radius: 24px;
-            border: 2px solid #E5E5E5;
-            box-shadow: 0 4px 0 #E5E5E5;
-        }
-        
-        .pix-modal-content {
-            border-radius: 24px !important;
-            border: 2px solid #E5E5E5 !important;
-            border-bottom: 6px solid #E5E5E5 !important;
-        }
-        
-        .pix-form-group input {
-            border-radius: 16px !important;
-            border: 2px solid #E5E5E5 !important;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
-            background: #F7F7F7 !important;
-        }
-        
-        .pix-form-group input:focus {
-            background: #FFFFFF !important;
-            border-color: var(--duo-green) !important;
-        }
-    </style>
-
-    <script>
-        // API_BASE aponta para onde hospedaremos o backend. Para teste local é localhost:3000
         const API_BASE = '';
         let pixPlanoSelecionado = 'premium';
 
@@ -3940,15 +3554,14 @@
 
                 document.getElementById('qrCodeImg').src = data.qrCodeUrl || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(data.pixCopiaECola);
                 document.getElementById('pixCopiaCola').value = data.pixCopiaECola;
-                document.getElementById('lblEmailComprador').textContent = email;
                 
                 document.getElementById('pixStep1').style.display = 'none';
                 document.getElementById('pixStep2').style.display = 'block';
             } catch (error) {
-                alert('Erro: ' + error.message + '\n\nVerifique se o backend está rodando no Render ou Localhost.');
+                alert('Erro: ' + error.message);
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '📲 Gerar QR Code PIX';
+                btn.innerHTML = 'Pix - Gerar QR Code';
             }
         }
 
@@ -3961,19 +3574,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
